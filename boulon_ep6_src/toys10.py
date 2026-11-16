@@ -226,7 +226,7 @@ cube("door", (40.55, 1.985, 1.05), (0.46, 0.02, 1.05), MT("doorG", (0.9, 0.55, 0
 cube("doorF", (40.55, 1.97, 1.05), (0.03, 0.03, 1.05), STONE, 0)
 cube("winE", (42.3, 1.985, 1.5), (0.7, 0.02, 0.55), MT("doorG"), 0)
 NEONG = MT("neonG", (0.1, 1.0, 0.45), 0.3, (0.1, 1.0, 0.45), 7)
-txt("signE", "LE CÈDRE", (40.6, 1.95, 2.72), 0.4, NEONG, ext=0.03)
+txt("signE", "LIBAN SUR SEINE", (40.6, 1.95, 2.72), 0.25, NEONG, ext=0.03)
 txt("signE2", "cuisine libanaise", (40.6, 1.95, 2.36), 0.13, MT("tW", (1, 1, 1), 0.4, (1, 1, 1), 2.5), ext=0.01)
 cyl("lampPost", (38.9, 1.3, 1.7), 0.045, 3.4, MT("iron", (0.03, 0.03, 0.035), 0.4))
 sphere("lampHead", (38.9, 1.3, 3.5), 0.16, MT("lampG", (1, 0.8, 0.5), 0.3, (1.0, 0.75, 0.4), 14))
@@ -290,7 +290,7 @@ for t in [T_INT1 + i * 0.5 for i in range(int((NF / FPS - T_INT1) * 2))]:
     mn = clock_min(t); f = F(t)
     hM.rotation_euler = (0, math.radians(mn * 6), 0); hM.keyframe_insert("rotation_euler", frame=f)
     hH.rotation_euler = (0, math.radians(mn * 0.5), 0); hH.keyframe_insert("rotation_euler", frame=f)
-txt("signI", "LE CÈDRE", (1.25, 2.5, 3.3), 0.3, NEONG, ext=0.025)
+txt("signI", "LIBAN SUR SEINE", (0.3, 2.5, 3.42), 0.25, NEONG, ext=0.025)
 # pendant lamp
 cyl("cord", (0, -0.5, 5.5), 0.012, 4.2, MT("iron"))
 bpy.ops.mesh.primitive_cone_add(radius1=0.34, radius2=0.08, depth=0.26, location=(0, -0.5, 3.36)); give(bpy.context.object, MT("shade", (0.75, 0.2, 0.1), 0.4)); smooth(bpy.context.object)
@@ -832,3 +832,20 @@ if os.environ.get("EP6_TRACK"):
         out[name] = pts
     json.dump(out, open(os.environ["EP6_TRACK"], "w"))
     print("TRACK", {k: len(v) for k, v in out.items()})
+
+if os.environ.get("EP6_VIS"):
+    from bpy_extras.object_utils import world_to_camera_view
+    vis = []
+    sgs = [(bpy.data.objects["signE"], 1.5, -0.5), (bpy.data.objects["signI"], 1.1, 0.0)]
+    for f in range(1, scene.frame_end + 1):
+        scene.frame_set(f); hit = False
+        cx = cam.matrix_world.translation.x
+        for o, hw, dz in sgs:
+            if (o.matrix_world.translation.x > 20) != (cx > 20): continue
+            c = o.matrix_world.translation
+            for i in range(13):
+                for z in (dz, 0.0, 0.25):
+                    v = world_to_camera_view(scene, cam, c + Vector((hw * (i / 6 - 1), 0, z)))
+                    if v.z > 0 and -0.06 < v.x < 1.06 and -0.06 < v.y < 1.06: hit = True
+        if hit: vis.append(f)
+    json.dump(vis, open(os.environ["EP6_VIS"], "w")); print("VIS", len(vis))
