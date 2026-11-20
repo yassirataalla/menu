@@ -55,7 +55,7 @@ def MK(t, **vals):
         kb = MOUTH.data.shape_keys.key_blocks[k]; kb.value = vals.get(k, 0.0); kb.keyframe_insert("value", frame=KT(t))
 _dk = bpy.data.materials.get("dark")
 VISM = MT("visorM", (0.004, 0.005, 0.008), 0.12)
-_set(VISM, **{"Coat Weight": 1.0, "Coat Roughness": 0.03})
+_set(VISM, **{"Coat Weight": 0.4, "Coat Roughness": 0.12})
 _vis.data.materials.clear(); _vis.data.materials.append(VISM)
 MOUTH.visible_diffuse = False; MOUTH.visible_glossy = False
 for _o in bpy.data.objects:
