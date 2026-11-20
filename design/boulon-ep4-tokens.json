@@ -1,0 +1,29 @@
+{
+  "$description": "Boulon — design tokens, épisode 4 « Boulon cherche l'amour ». Three layers: primitive -> semantic -> component.",
+  "primitive": {
+    "color": {
+      "white": "#FFFFFF", "ink-900": "#1A0F24", "ink-600": "#5E5068", "night-800": "#1B0E2B",
+      "pink-500": "#FF2E88", "pink-400": "#FF5CA8", "violet-500": "#7B4DFF", "boulon-blue": "#2673D9", "red-500": "#F0323A", "green-400": "#3DDC84"
+    },
+    "font": { "display": "Poppins ExtraBold", "body": "Poppins Bold" },
+    "size": { "caption": 54, "title": 36, "body": 24, "small": 18, "micro": 15 },
+    "radius": { "card": 18, "pill": 999 },
+    "motion": { "in-ms": 180, "pop-ms": 220, "fade-in-ms": 120, "fade-out-ms": 140 },
+    "layout": { "width": 720, "height": 1280, "caption-y": 262, "lower-third-y": 1092 }
+  },
+  "semantic": {
+    "color": {
+      "text": "{primitive.color.white}", "text-on-light": "{primitive.color.ink-900}", "text-muted": "{primitive.color.ink-600}",
+      "outline": "{primitive.color.ink-900}", "accent": "{primitive.color.pink-500}", "emphasis": "{primitive.color.pink-400}",
+      "surface-light": "{primitive.color.white}", "surface-dark": "{primitive.color.night-800}",
+      "danger": "{primitive.color.red-500}", "success": "{primitive.color.green-400}", "secondary": "{primitive.color.violet-500}"
+    }
+  },
+  "component": {
+    "caption": { "font": "{primitive.font.display}", "size": "{primitive.size.caption}", "color": "{semantic.color.text}", "emphasis": "{semantic.color.emphasis}", "outline": "{semantic.color.outline}" },
+    "name-card": { "bg": "{semantic.color.surface-light}", "strip": "{semantic.color.accent}", "name": "{semantic.color.text-on-light}", "role": "{semantic.color.text-muted}" },
+    "match-stamp": { "bg": "{semantic.color.accent}", "text": "{semantic.color.text}" },
+    "pill-dark": { "bg": "{semantic.color.surface-dark}", "text": "{semantic.color.text}" },
+    "cta": { "bg": "{semantic.color.accent}", "text": "{semantic.color.text}" }
+  }
+}
